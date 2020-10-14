@@ -9,7 +9,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 
 const useStyles = makeStyles({
   list: {
-    width: 350,
+    width: 250,
   },
   fullList: {
     width: "auto",
