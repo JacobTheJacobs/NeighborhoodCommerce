@@ -1,4 +1,3 @@
-const { builtinModules } = require("module");
 const mongoose = require("mongoose");
 
 const UserSchema = mongoose.Schema(

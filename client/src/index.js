@@ -8,11 +8,19 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store/store";
 
+const main = "#2196f3";
+
+const customTheme = {
+  light: "",
+  main: main,
+  dark: "#1769aa",
+};
+
 const theme = createMuiTheme({
   palette: {
     primary: {
       light: "#4dabf5",
-      main: "#2196f3",
+      main: main,
       dark: "#1769aa",
       contrastText: "#fff",
     },
