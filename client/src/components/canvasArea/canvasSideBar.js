@@ -25,7 +25,11 @@ const CanvasSideBar = ({ onSelectImage }) => {
         <div className="container">
           <br></br>
 
-          <label htmlFor="filePicker" className="btn btn-warning">
+          <label
+            htmlFor="filePicker"
+            className="btn btn-warning"
+            style={{ color: "white" }}
+          >
             Add Image
           </label>
           <input

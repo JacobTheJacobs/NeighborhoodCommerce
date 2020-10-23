@@ -4,6 +4,7 @@ import { Stage, Layer, Rect, Transformer, Image } from "react-konva";
 import useImage from "use-image";
 import CanvasSideBar from "./canvasSideBar";
 import "./style.css";
+import * as Konva from "konva";
 
 const url = "https://konvajs.github.io/assets/yoda.jpg";
 
@@ -30,12 +31,41 @@ const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) => {
         ref={shapeRef}
         {...shapeProps}
         draggable
-        onDragEnd={(e) => {
-          onChange({
-            ...shapeProps,
-            x: e.target.x(),
-            y: e.target.y(),
-          });
+        dragBoundFunc={(pos) => {
+          console.log(shapeProps);
+          let newX = pos.x;
+          let newY = pos.y;
+          //X
+          if (pos.x > 1100 - shapeProps.width) {
+            pos.x = 1100 - shapeProps.width;
+            newX = pos.x;
+          } else {
+            newX = pos.x;
+          }
+          if (pos.x < 0) {
+            pos.x = 0;
+            newX = pos.x;
+          } else {
+            newX = pos.x;
+          }
+          //Y
+          if (pos.y > 319 - shapeProps.height) {
+            pos.y = 319 - shapeProps.height;
+            newY = pos.y;
+          } else {
+            newY = pos.y;
+          }
+          if (pos.y < 0) {
+            pos.y = 0;
+            newY = pos.y;
+          } else {
+            newY = pos.y;
+          }
+
+          return {
+            x: newX,
+            y: newY,
+          };
         }}
         onTransformEnd={(e) => {
           // transformer is changing scale of the node
@@ -111,47 +141,45 @@ const ConvasArea = () => {
   };
 
   return (
-    <div className="">
+    <>
       <div className="wrapper">
         <CanvasSideBar onSelectImage={handleImageChange} />
       </div>
 
-      <div>
-        <Stage
-          width={window.innerWidth / 2}
-          height={window.innerHeight / 2}
-          onMouseDown={checkDeselect}
-          onTouchStart={checkDeselect}
-          style={{
-            border: "5px solid black",
-          }}
-        >
-          <Layer>
-            {rectangles.length > 0
-              ? rectangles.map((rect, i) => {
-                  return (
-                    <>
-                      <Rectangle
-                        key={rect.id}
-                        shapeProps={rect}
-                        isSelected={rect.id === selectedId}
-                        onSelect={() => {
-                          selectShape(rect.id);
-                        }}
-                        onChange={(newAttrs) => {
-                          const rects = rectangles.slice();
-                          rects[i] = newAttrs;
-                          setRectangles(rects);
-                        }}
-                      />
-                    </>
-                  );
-                })
-              : null}
-          </Layer>
-        </Stage>
-      </div>
-    </div>
+      <Stage
+        width={window.innerWidth / 2 + 150}
+        height={window.innerHeight / 2}
+        onMouseDown={checkDeselect}
+        onTouchStart={checkDeselect}
+        style={{
+          border: "5px solid black",
+        }}
+      >
+        <Layer>
+          {rectangles.length > 0
+            ? rectangles.map((rect, i) => {
+                return (
+                  <>
+                    <Rectangle
+                      key={rect.id}
+                      shapeProps={rect}
+                      isSelected={rect.id === selectedId}
+                      onSelect={() => {
+                        selectShape(rect.id);
+                      }}
+                      onChange={(newAttrs) => {
+                        const rects = rectangles.slice();
+                        rects[i] = newAttrs;
+                        setRectangles(rects);
+                      }}
+                    />
+                  </>
+                );
+              })
+            : null}
+        </Layer>
+      </Stage>
+    </>
   );
 };
 export default ConvasArea;
