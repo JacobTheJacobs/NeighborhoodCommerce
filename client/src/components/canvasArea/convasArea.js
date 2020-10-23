@@ -7,10 +7,10 @@ import "./style.css";
 
 const url = "https://konvajs.github.io/assets/yoda.jpg";
 
-const Rectangle = ({ shapeProps, isSelected, onSelect, onChange, image }) => {
+const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) => {
   const shapeRef = React.useRef();
   const trRef = React.useRef();
-  const [image1] = useImage(image ? image : url);
+  const [image1] = useImage(shapeProps ? shapeProps.img : url);
 
   React.useEffect(() => {
     if (isSelected) {
@@ -21,7 +21,8 @@ const Rectangle = ({ shapeProps, isSelected, onSelect, onChange, image }) => {
   }, [isSelected]);
 
   return (
-    <React.Fragment>
+    <>
+      {console.log(shapeProps)}
       <Image
         image={image1}
         onClick={onSelect}
@@ -71,40 +72,34 @@ const Rectangle = ({ shapeProps, isSelected, onSelect, onChange, image }) => {
           }}
         />
       )}
-    </React.Fragment>
+    </>
   );
 };
 
-const initialRectangles = [
-  {
-    x: 10,
-    y: 10,
-    width: 100,
-    height: 100,
-    fill: "red",
-    id: "rect1",
-  },
-  {
-    x: 150,
-    y: 150,
-    width: 100,
-    height: 100,
-    fill: "green",
-    id: "rect2",
-  },
-];
+const initialRectangles = [];
 
 const ConvasArea = () => {
   const [rectangles, setRectangles] = React.useState(initialRectangles);
   const [selectedId, selectShape] = React.useState(null);
-  const [image, setImage] = useState(url);
+
   const [images, setImages] = useState([]);
 
   const handleImageChange = (img) => {
-    setImage(img);
-    const tempImag = [];
-    tempImag.push(img);
-    setImages(tempImag);
+    setImages([...images, img]);
+
+    const tempRectangle = {
+      x: 150,
+      y: 150,
+      width: 100,
+      height: 100,
+      fill: "green",
+      id: "rect2" + Math.random(),
+      img: img,
+    };
+
+    setRectangles([...rectangles, tempRectangle]);
+
+    console.log(images);
   };
 
   const checkDeselect = (e) => {
@@ -132,31 +127,27 @@ const ConvasArea = () => {
           }}
         >
           <Layer>
-            {rectangles.map((rect, i) => {
-              return (
-                <>
-                  {images.length > 0
-                    ? images.forEach((img, _) => (
-                        <Rectangle
-                          image={img}
-                          key={_}
-                          key={i}
-                          shapeProps={rect}
-                          isSelected={rect.id === selectedId}
-                          onSelect={() => {
-                            selectShape(rect.id);
-                          }}
-                          onChange={(newAttrs) => {
-                            const rects = rectangles.slice();
-                            rects[i] = newAttrs;
-                            setRectangles(rects);
-                          }}
-                        />
-                      ))
-                    : null}
-                </>
-              );
-            })}
+            {rectangles.length > 0
+              ? rectangles.map((rect, i) => {
+                  return (
+                    <>
+                      <Rectangle
+                        key={rect.id}
+                        shapeProps={rect}
+                        isSelected={rect.id === selectedId}
+                        onSelect={() => {
+                          selectShape(rect.id);
+                        }}
+                        onChange={(newAttrs) => {
+                          const rects = rectangles.slice();
+                          rects[i] = newAttrs;
+                          setRectangles(rects);
+                        }}
+                      />
+                    </>
+                  );
+                })
+              : null}
           </Layer>
         </Stage>
       </div>

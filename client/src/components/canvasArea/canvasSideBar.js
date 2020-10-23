@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { render } from "react-dom";
 import { Stage, Layer, Rect, Transformer, Image } from "react-konva";
 import useImage from "use-image";
+import Button from "@material-ui/core/Button";
 
 const CanvasSideBar = ({ onSelectImage }) => {
   const [img, setImg] = useState(
@@ -22,14 +23,20 @@ const CanvasSideBar = ({ onSelectImage }) => {
     <div>
       <div className="page">
         <div className="container">
-          <h6 className="heading">Add your Image</h6>
+          <br></br>
 
+          <label htmlFor="filePicker" className="btn btn-warning">
+            Add Image
+          </label>
           <input
+            id="filePicker"
             type="file"
             accept="image/*"
             name="image-upload"
-            id="input"
             onChange={imageHandler}
+            style={{
+              visibility: "hidden",
+            }}
           />
         </div>
       </div>
