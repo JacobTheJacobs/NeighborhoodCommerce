@@ -49,8 +49,8 @@ const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) => {
             newX = pos.x;
           }
           //Y
-          if (pos.y > 319 - shapeProps.height) {
-            pos.y = 319 - shapeProps.height;
+          if (pos.y > 419 - shapeProps.height) {
+            pos.y = 419 - shapeProps.height;
             newY = pos.y;
           } else {
             newY = pos.y;
