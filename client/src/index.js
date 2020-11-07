@@ -10,11 +10,6 @@ import store from "./store/store";
 
 const main = "#2196f3";
 
-const customTheme = {
-  light: "",
-  main: main,
-  dark: "#1769aa",
-};
 
 const theme = createMuiTheme({
   palette: {
